@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { createContext, useEffect } from "react";
 import { useState } from "react";
 import auth from "../../firebase.init"
-import { GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, updateProfile } from "firebase/auth";
 
 export const AuthContext = createContext()
 
@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
             if(currentuser) setuser(currentuser)
+            setLoading(false);
         })
 
         return () => unsubscribe()
@@ -20,10 +21,33 @@ const AuthProvider = ({ children }) => {
 
     const googleProvider = new GoogleAuthProvider();
 
+    const createWithGoogle = async () => {
+        googleProvider.setCustomParameters({
+            prompt: "select_account",
+          });
     
+          const result = await signInWithPopup(auth, googleProvider);
+        return result
+    }
+
+    const createWithEmail = async (email, password, displayName, photoURL) => {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+        await updateProfile(userCredential.user, {
+          displayName: displayName,
+          photoURL: photoURL,
+        });
+
+    return userCredential
+}
 
 
-    const authinfo = []
+    const authinfo = {
+        user,
+        setuser,
+        createWithGoogle,
+        createWithEmail,
+    }
 
     if (loading) {
         return (

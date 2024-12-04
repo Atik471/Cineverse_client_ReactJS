@@ -1,5 +1,4 @@
-import { NavLink } from "react-router-dom";
-import Login from "./Login";
+import { NavLink, Link } from "react-router-dom";
 
 const Navbar = () => {
     return (
@@ -10,7 +9,7 @@ const Navbar = () => {
                 <NavLink to={"/add-movies"}>Add Movies</NavLink>
                 <NavLink to={"my-favourites"}>My Favourites</NavLink>
             </ul>
-            <Login to={"/login"}>Login</Login>
+            <Link to={"/login"}>Login</Link>
         </div>
     );
 };

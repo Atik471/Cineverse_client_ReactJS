@@ -7,6 +7,7 @@ import ForgotPass from "../components/ForgotPass"
 import AllMovies from "../components/AllMovies"
 import AddMovies from "../components/AddMovies"
 import MyFavourites from "../components/MyFavourites"
+import PrivateRoute from "./PrivateRoute"
 
 const router = createBrowserRouter([
     {
@@ -32,7 +33,10 @@ const router = createBrowserRouter([
             },
             {
                 path: "add-movies",
-                element: <AddMovies></AddMovies>
+                element: 
+                <PrivateRoute>
+                    <AddMovies></AddMovies>
+                </PrivateRoute>
             },
             {
                 path: "my-favourites",

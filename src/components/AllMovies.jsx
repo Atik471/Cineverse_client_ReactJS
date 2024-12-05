@@ -17,8 +17,6 @@ const AllMovies = () => {
 
     if(loading) return <p>Loading...</p>
 
-    console.log(movies[0])
-
     return (
         <div>
             {

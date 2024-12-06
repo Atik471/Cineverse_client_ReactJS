@@ -40,7 +40,7 @@ const Navbar = () => {
     return (
         <div className={`w-full px-[4%] py-[1.5rem] flex justify-between fixed top-0 z-50 ${bgColor} transition-colors duration-1000 ${fontColor} font-bold text-lg items-center`}>
             <div className="w-14">
-                <FaCirclePlay className="text-4xl"></FaCirclePlay>
+                <FaCirclePlay className="text-4xl text-primary"></FaCirclePlay>
             </div>
             <ul className="flex gap-8">
                 <NavLink to={"/"}>Home</NavLink>

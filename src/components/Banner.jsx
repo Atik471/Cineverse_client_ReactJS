@@ -5,14 +5,9 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "./styles/Slider.css";
 import Navbar from "./Navbar";
 import { useLocation } from "react-router-dom";
-// import { useContext } from "react";
-// import {LocationContext} from "../providers/LocationProvider";
 
 const Banner = () => {
   const location = useLocation();
-//   const {clientDomain} = useContext(LocationContext);
-
-//   console.log(location.pathname)
 
   return (
     <div>
@@ -32,7 +27,7 @@ const Banner = () => {
           <div className="relative w-full h-[650px] bg-[url('./src/assets/matrix_banner.jpg')] bg-cover bg-center">
             <div className="absolute inset-0 bg-black opacity-30"></div>
             <div className="relative z-10 flex items-center justify-center h-full text-white">
-              <h1 className="text-4xl font-bold">Matrix</h1>
+
             </div>
           </div>
           </SwiperSlide>
@@ -40,7 +35,7 @@ const Banner = () => {
           <div className="relative w-full h-[650px] bg-[url('./src/assets/oppenheimer_banner.jpeg')] bg-cover bg-center">
             <div className="absolute inset-0 bg-black opacity-30"></div>
             <div className="relative z-10 flex items-center justify-center h-full text-white">
-              <h1 className="text-4xl font-bold">Matrix</h1>
+
             </div>
           </div>
           </SwiperSlide>
@@ -48,7 +43,7 @@ const Banner = () => {
           <div className="relative w-full h-[650px] bg-[url('./src/assets/venom_banner.jpg')] bg-cover bg-center">
             <div className="absolute inset-0 bg-black opacity-30"></div>
             <div className="relative z-10 flex items-center justify-center h-full text-white">
-              <h1 className="text-4xl font-bold">Matrix</h1>
+
             </div>
           </div>
           </SwiperSlide>
@@ -60,7 +55,7 @@ const Banner = () => {
         <div className="relative w-full h-[400px] bg-[url('./src/assets/account_banner.jpg')] bg-cover bg-center">
             <div className="absolute inset-0 bg-black opacity-30"></div>
             <div className="relative z-10 flex items-center justify-center h-full text-white">
-              <h1 className="text-4xl font-bold">Matrix</h1>
+              <h1 className="text-4xl font-bold"></h1>
             </div>
           </div>
       )}

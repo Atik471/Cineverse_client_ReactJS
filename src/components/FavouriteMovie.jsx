@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import {LocationContext} from '../providers/LocationProvider'
 
 const FavouriteMovie = ({movie, setfavourites}) => {
     const { _id, duration, genre, poster, rating, releaseYear, summary, title } = movie
+    const {serverDomain} = useContext(LocationContext)
 
     const handledelete = async() => {
-        await fetch(`http://localhost:5000/movies/favourites/${_id}`, {
+        await fetch(`${serverDomain}/movies/favourites/${_id}`, {
             method: 'DELETE'
         }).then(res => res.json())
         .then(result => {

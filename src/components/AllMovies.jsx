@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Movie from "./Movie";
+import { LocationContext } from "../providers/LocationProvider";
 
 const AllMovies = () => {
     const [movies, setmovies] = useState([])
     const [loading, useloading] = useState(true)
+    const {serverDomain} = useContext(LocationContext)
 
     useEffect(() => {
-        fetch("http://localhost:5000/movies")
+        fetch(`${serverDomain}/movies`)
         .then((res) => res.json())
         .then((data) => {
             setmovies(data)

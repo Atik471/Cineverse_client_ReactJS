@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import FavouriteMovie from "./FavouriteMovie";
+import { LocationContext } from "../providers/LocationProvider";
 
 const MyFavourites = () => {
     const [favourites, setfavourites] = useState([])
     const [loading, setloading] = useState(true)
     const { user } = useContext(AuthContext)
+    const {serverDomain} = useContext(LocationContext)
 
     useEffect(() => {
-        fetch(`http://localhost:5000/movies/favourites/${user.uid}`, {
+        fetch(`${serverDomain}/movies/favourites/${user.uid}`, {
             method: 'GET'})
         .then(res => res.json())
         .then(data => {

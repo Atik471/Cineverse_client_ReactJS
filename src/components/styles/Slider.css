@@ -1,0 +1,14 @@
+.mySwiper {
+    width: 100%;
+  }
+
+.swiper-pagination .swiper-pagination-bullet {
+  background-color: rgb(255, 255, 255); 
+  opacity: 1; 
+}
+
+.swiper-pagination .swiper-pagination-bullet-active {
+  background-color: rgb(217, 2, 2); 
+}
+  
+  

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Rating } from "react-simple-star-rating";
+import { LocationContext } from "../providers/LocationProvider";
 
 const AddMovies = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const AddMovies = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const {serverDomain} = useContext(LocationContext)
 
   const generateYears = () => {
     const currentYear = new Date().getFullYear();
@@ -77,7 +79,7 @@ const AddMovies = () => {
           summary: formData.summary,
         };
   
-        const response = await fetch('http://localhost:5000/movies/add', {
+        const response = await fetch(`${serverDomain}/movies/add`, {
           method: 'POST', 
           headers: {
             'Content-Type': 'application/json', 

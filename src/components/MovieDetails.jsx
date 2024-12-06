@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
+import { LocationContext } from "../providers/LocationProvider";
 
 const MovieDetails = () => {
     const [movie, setmovie] = useState(null)
@@ -8,9 +9,10 @@ const MovieDetails = () => {
     const param = useParams()
     const navigate = useNavigate()
     const { user } = useContext(AuthContext)
+    const {serverDomain} = useContext(LocationContext)
 
     useEffect(() => {
-        fetch(`http://localhost:5000/movies/${param.id}`)
+        fetch(`${serverDomain}/movies/${param.id}`)
         .then((res) => res.json())
         .then((data) => {
             setmovie(data);
@@ -23,7 +25,7 @@ const MovieDetails = () => {
 
     console.log(movie)
     const handledelete = async() => {
-        await fetch(`http://localhost:5000/movies/${param.id}`, {
+        await fetch(`${serverDomain}/movies/${param.id}`, {
             method: 'DELETE'
         }).then(res => res.json())
         .then(result => console.log(result))
@@ -33,7 +35,7 @@ const MovieDetails = () => {
     }
 
     const handleAddtoFavourites = async() => {
-        await fetch('http://localhost:5000/movies/add-favourite', {
+        await fetch(`${serverDomain}/movies/add-favourite`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -9,6 +9,7 @@ import AddMovies from "../components/AddMovies"
 import MyFavourites from "../components/MyFavourites"
 import PrivateRoute from "./PrivateRoute"
 import MovieDetails from "../components/MovieDetails";
+import Home from "../components/Home";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
         element: <App></App>,
         errorElement: <ErrorPage></ErrorPage>,
         children: [
+            {
+                path: "",
+                element: <Home></Home>
+            },
             {
                 path: "login",
                 element: <Login></Login>

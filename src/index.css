@@ -5,3 +5,7 @@
 svg.star-svg {
     display: inline;
 }
+
+a.active{
+    color: rgb(231,166,29);
+}

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import FavouriteMovie from "./FavouriteMovie";
 import { LocationContext } from "../providers/LocationProvider";
+import { GiNightSleep } from "react-icons/gi";
 
 const MyFavourites = () => {
   const [favourites, setfavourites] = useState([]);
@@ -28,16 +29,26 @@ const MyFavourites = () => {
         <p className="text-lg font-semibold text-black/70">
           Explore your watchlist
         </p>
-        <h1 className="text-[3.5rem] font-bold text-black">Your Favourite Movies</h1>
+        <h1 className="text-[3.5rem] font-bold text-black">
+          Your Favourite Movies
+        </h1>
       </div>
       <div className="grid grid-cols-3 gap-8">
-        {favourites.map((favourite) => (
-          <FavouriteMovie
-            key={favourite._id}
-            movie={favourite}
-            setfavourites={setfavourites}
-          ></FavouriteMovie>
-        ))}
+        {favourites.length > 0 ? (
+          favourites.map((favourite) => (
+            <FavouriteMovie
+              key={favourite._id}
+              movie={favourite}
+              setfavourites={setfavourites}
+            ></FavouriteMovie>
+          ))
+        ) : (
+          <div className="flex flex-col justify-center items-center text-primary col-span-3 gap-8 my-[4rem]">
+            <GiNightSleep className="text-8xl "></GiNightSleep>
+            <h1 className="text-5xl font-bold">Wow nothing to see!</h1>
+            
+          </div>
+        )}
       </div>
     </div>
   );

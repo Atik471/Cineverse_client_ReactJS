@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import login_page from "../assets/login_page.png";
+import { toast } from "react-toastify";
 
 const ForgotPass = () => {
   const [loading, setLoading] = useState(false);
@@ -30,8 +31,16 @@ const ForgotPass = () => {
 
     try {
       await sendPasswordResetEmail(auth, email);
+      toast.success("Reset Email sent, Please check your email!", {
+        position: "top-left",
+        autoClose: 5000,
+      });
     } catch (error) {
       console.log(`Error: ${error.message}`);
+      toast.error(`Failed to send email, ${error.message}`, {
+        position: "top-left",
+        autoClose: 2000,
+      });
     } finally {
       setLoading(false);
     }
@@ -42,6 +51,7 @@ const ForgotPass = () => {
       <div className="w-[50%] flex- flex-col">
         <form onSubmit={handleReset} className="flex flex-col">
           <input
+            required
             type="email"
             name="email"
             placeholder="Email"
@@ -52,11 +62,18 @@ const ForgotPass = () => {
             }}
           />
 
-          <input
-            type="submit"
-            value="Reset Password"
-            className="px-8 py-6 font-bold text-xl mb-8 bg-primary text-white hover:bg-black cursor-pointer transition-all duration-300"
-          />
+          <div className="relative">
+            <input
+              type="submit"
+              value={`${loading ? "" : "Reset Password"}`}
+              className="w-full px-8 py-6 font-bold text-xl mb-8 bg-primary text-white hover:bg-black cursor-pointer transition-all duration-300"
+            />
+            {loading ? (
+              <div className=" absolute top-[20%] right-[50%] w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              ""
+            )}
+          </div>
           <button
             className="underline ml-2 font-medium decoration-transparent hover:decoration-primary transition-all duration-300 pb-3 underline-offset-8"
             onClick={goBackToLogin}

@@ -1,13 +1,22 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { toast } from "react-toastify";
 import login_page from "../assets/login_page.png";
 
 const Register = () => {
-  const { setuser, createWithGoogle, createWithEmail } =
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { user, setuser, createWithGoogle, createWithEmail } =
     useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      // Navigate after user state is updated
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleLoginWithGoogle = () => {
     createWithGoogle()
@@ -16,13 +25,13 @@ const Register = () => {
         navigate("/");
         console.log(userCredential.user);
       })
-      .catch((error) => {
-        const errorMessage = error.message;
+      .catch((err) => {
+        const errorMessage = err.message;
         console.log(errorMessage);
       });
   };
 
-  const handeRegisterWithEmail = (e) => {
+  const handeRegisterWithEmail = async(e) => {
     e.preventDefault();
     const form = e.target;
 
@@ -48,16 +57,47 @@ const Register = () => {
       );
       return;
     }
-    createWithEmail(email, password, name, photoURL)
-      .then((userCredential) => {
-        setuser(userCredential.user);
-        navigate("/");
-        console.log(userCredential.user);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
+    setLoading(true);
+    try {
+      const userCredential = await createWithEmail(email, password, name, photoURL);
+      console.log(userCredential.user)
+      setuser(userCredential.user)
+      toast.success("Registration Successful!", {
+        position: "top-left",
+        autoClose: 2000,
       });
+  
+      //navigate("/");
+  
+    }catch(err) {
+        const errorCode = err.code;
+        console.log(err.code);
+        let errorMessage;
+
+        switch (errorCode) {
+          case "auth/email-already-in-use":
+            errorMessage =
+              "This email is already in use. Please try a different one.";
+            break;
+          case "auth/invalid-email":
+            errorMessage = "Invalid email format. Please check your email.";
+            break;
+          case "auth/weak-password":
+            errorMessage =
+              "Password is too weak. Please choose a stronger password.";
+            break;
+          default:
+            errorMessage = "An unknown error occurred during sign-up.";
+            break;
+        }
+
+        setError(errorMessage);
+        toast.error(`Sign up Failed! ${error || errorMessage}`, {
+          position: "top-left",
+          autoClose: 2000,
+        });
+        setLoading(false);
+      };
   };
 
   return (
@@ -87,7 +127,6 @@ const Register = () => {
             className="border-2 outline-none px-8 py-6 font-extralight text-xl mb-8"
           />
           <input
-            required
             type="text"
             name="photoURL"
             placeholder="Paste your Photo URL here"
@@ -103,11 +142,18 @@ const Register = () => {
             </Link>
           </p>
 
-          <input
-            type="submit"
-            value="Register"
-            className="px-8 py-6 font-bold text-xl mb-8 bg-primary text-white hover:bg-black cursor-pointer transition-all duration-300"
-          />
+          <div className="relative">
+            <input
+              type="submit"
+              value={`${loading ? "" : "Register"}`}
+              className="w-full px-8 py-6 font-bold text-xl mb-8 bg-primary text-white hover:bg-black cursor-pointer transition-all duration-300"
+            />
+            {loading ? (
+              <div className=" absolute top-[20%] right-[50%] w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              ""
+            )}
+          </div>
         </form>
         <button
           onClick={handleLoginWithGoogle}

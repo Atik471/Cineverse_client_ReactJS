@@ -65,7 +65,7 @@ const Navbar = () => {
                 }}
               ></div>
               <div className="absolute top-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {user.displayName.split(" ")[0] || "Guest User"}
+              {(user?.displayName || "Guest User").split(" ")[0]}
               </div>
             </div>
           </div>

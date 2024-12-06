@@ -11,7 +11,7 @@ const Navbar = () => {
 
     useEffect(() => {
       const handleScroll = () => {
-        const scrollThreshold = window.innerHeight * 0.6;
+        const scrollThreshold = window.innerHeight * 0.5;
   
         if (window.scrollY > scrollThreshold) {
           setBgColor('bg-black');

@@ -1,20 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Rating } from "react-simple-star-rating";
 import { LocationContext } from "../providers/LocationProvider";
+import { useForm } from "react-hook-form";
 
 const AddMovies = () => {
-  const [formData, setFormData] = useState({
-    poster: "",
-    title: "",
-    genre: "",
-    duration: "",
-    releaseYear: "",
-    rating: 0,
-    summary: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const [errors, setErrors] = useState({});
-  const {serverDomain} = useContext(LocationContext)
+  const { serverDomain } = useContext(LocationContext);
 
   const generateYears = () => {
     const currentYear = new Date().getFullYear();
@@ -26,133 +24,106 @@ const AddMovies = () => {
   };
   const years = generateYears();
 
-  const genres = ["Comedy", "Drama", "Horror", "Action", "Sci-Fi", "Romance", "Crime", "Thriller", "Animation"];
+  const genres = [
+    "Comedy",
+    "Drama",
+    "Horror",
+    "Action",
+    "Sci-Fi",
+    "Romance",
+    "Crime",
+    "Thriller",
+    "Animation",
+  ];
 
-  const validate = () => {
-    const newErrors = {};
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch(`${serverDomain}/movies/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const regex = /^https?:\/\/[^\s]+$/i;
-    if (!regex.test(formData.poster)) {
-      newErrors.poster = "Please enter a valid image link.";
-    }
-
-    if (!formData.title.trim() || formData.title.length < 2) {
-      newErrors.title = "Title must be at least 2 characters.";
-    }
-
-    if (!formData.genre) {
-      newErrors.genre = "Please select a genre.";
-    }
-
-    if (!formData.duration || formData.duration <= 60) {
-      newErrors.duration = "Duration must be greater than 60 minutes.";
-    }
-
-    if (!formData.releaseYear) {
-      newErrors.releaseYear = "Please select a release year.";
-    }
-
-    if (formData.rating === 0) {
-      newErrors.rating = "Please select a rating.";
-    }
-
-    if (!formData.summary.trim() || formData.summary.length < 10) {
-      newErrors.summary = "Summary must be at least 10 characters.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    if (validate()) {
-      try {
-        const movieData = {
-          poster: formData.poster,
-          title: formData.title,
-          genre: formData.genre,
-          duration: formData.duration,
-          releaseYear: formData.releaseYear,
-          rating: formData.rating,
-          summary: formData.summary,
-        };
-  
-        const response = await fetch(`${serverDomain}/movies/add`, {
-          method: 'POST', 
-          headers: {
-            'Content-Type': 'application/json', 
-          },
-          body: JSON.stringify(movieData),
-        });
-  
-        if (!response.ok) {
-          console.log(response);
-          throw new Error('Error while adding movie');
-        }
-  
-        const result = await response.json();
-        console.log('Movie added:', result);
-        alert("Movie added successfully!");
-  
-        setFormData({
-          poster: "",
-          title: "",
-          genre: "",
-          duration: "",
-          releaseYear: "",
-          rating: 0,
-          summary: "",
-        });
-      } catch (error) {
-        console.error('Error:', error);
+      if (!response.ok) {
+        console.log(response);
+        throw new Error("Error while adding movie");
       }
-    }
-  };
-  
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+      const result = await response.json();
+      console.log("Movie added:", result);
+      alert("Movie added successfully!");
+      reset();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleRating = (rate) => {
-    setFormData((prev) => ({ ...prev, rating: rate }));
+    setValue("rating", rate);
   };
 
+  // bg-gray-800
   return (
-    <div >
-      <h2>Add a Movie</h2>
-      <form onSubmit={handleSubmit}>
-
+    <div className="max-w-[60%] mx-auto bg-gray-800 my-[5rem] p-8 rounded-lg shadow-lg">
+      <h2 className="text-3xl font-bold text-white mb-6 text-center">
+        Add a Movie
+      </h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <label>Movie Poster:</label>
+          <label className="block text-gray-300 text-sm font-medium mb-2">
+            Movie Poster:
+          </label>
           <input
             type="text"
             name="poster"
-            value={formData.poster}
-            onChange={handleChange}
             placeholder="Enter poster URL"
+            {...register("poster", {
+              required: "Poster URL is required",
+              pattern: {
+                value: /^https?:\/\/[^\s]+$/i,
+                message: "Please enter a valid image URL",
+              },
+            })}
+            className="w-full px-4 py-2 text-sm text-gray-900 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
-          {errors.poster && <p style={{ color: "red" }}>{errors.poster}</p>}
+          {errors.poster && (
+            <p className="text-red-500 text-xs mt-2">{errors.poster.message}</p>
+          )}
         </div>
 
         <div>
-          <label>Movie Title:</label>
+          <label className="block text-gray-300 text-sm font-medium mb-2">
+            Movie Title:
+          </label>
           <input
             type="text"
             name="title"
-            value={formData.title}
-            onChange={handleChange}
             placeholder="Enter movie title"
+            {...register("title", {
+              required: "Movie title is required",
+              minLength: {
+                value: 2,
+                message: "Title must be at least 2 characters long",
+              },
+            })}
+            className="w-full px-4 py-2 text-sm text-gray-900 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
-          {errors.title && <p style={{ color: "red" }}>{errors.title}</p>}
+          {errors.title && (
+            <p className="text-red-500 text-xs mt-2">{errors.title.message}</p>
+          )}
         </div>
 
         <div>
-          <label>Genre:</label>
-          <select name="genre" value={formData.genre} onChange={handleChange}>
+          <label className="block text-gray-300 text-sm font-medium mb-2">
+            Genre:
+          </label>
+          <select
+            name="genre"
+            {...register("genre", { required: "Please select a genre" })}
+            className="w-full px-4 py-2 text-sm text-gray-900 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
             <option value="">Select Genre</option>
             {genres.map((genre) => (
               <option key={genre} value={genre}>
@@ -160,27 +131,45 @@ const AddMovies = () => {
               </option>
             ))}
           </select>
-          {errors.genre && <p style={{ color: "red" }}>{errors.genre}</p>}
+          {errors.genre && (
+            <p className="text-red-500 text-xs mt-2">{errors.genre.message}</p>
+          )}
         </div>
 
         <div>
-          <label>Duration (minutes):</label>
+          <label className="block text-gray-300 text-sm font-medium mb-2">
+            Duration (minutes):
+          </label>
           <input
             type="number"
             name="duration"
-            value={formData.duration}
-            onChange={handleChange}
             placeholder="Enter duration in minutes"
+            {...register("duration", {
+              required: "Duration is required",
+              min: {
+                value: 60,
+                message: "Duration must be greater than 60 minutes",
+              },
+            })}
+            className="w-full px-4 py-2 text-sm text-gray-900 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
-          {errors.duration && <p style={{ color: "red" }}>{errors.duration}</p>}
+          {errors.duration && (
+            <p className="text-red-500 text-xs mt-2">
+              {errors.duration.message}
+            </p>
+          )}
         </div>
 
         <div>
-          <label>Release Year:</label>
+          <label className="block text-gray-300 text-sm font-medium mb-2">
+            Release Year:
+          </label>
           <select
             name="releaseYear"
-            value={formData.releaseYear}
-            onChange={handleChange}
+            {...register("releaseYear", {
+              required: "Please select a release year",
+            })}
+            className="w-full px-4 py-2 text-sm text-gray-900 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <option value="">Select Year</option>
             {years.map((year) => (
@@ -189,34 +178,58 @@ const AddMovies = () => {
               </option>
             ))}
           </select>
-          {errors.releaseYear && <p style={{ color: "red" }}>{errors.releaseYear}</p>}
-        </div>
-
-        
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label>Rating:</label>
-          <div style={{ display: "flex", gap: "8px" }}>
-            <Rating
-              onClick={handleRating}
-              ratingValue={formData.rating}
-              allowHalfIcon={true}
-            />
-          </div>
-          {errors.rating && <p style={{ color: "red" }}>{errors.rating}</p>}
+          {errors.releaseYear && (
+            <p className="text-red-500 text-xs mt-2">
+              {errors.releaseYear.message}
+            </p>
+          )}
         </div>
 
         <div>
-          <label>Summary:</label>
-          <textarea
-            name="summary"
-            value={formData.summary}
-            onChange={handleChange}
-            placeholder="Enter a short summary of the movie"
-          />
-          {errors.summary && <p style={{ color: "red" }}>{errors.summary}</p>}
+          <label className="block text-gray-300 text-sm font-medium mb-2">
+            Rating:
+          </label>
+          <div className="flex items-center gap-4">
+            <Rating
+              onClick={handleRating}
+              ratingValue={0}
+              allowHalfIcon={true}
+            />
+          </div>
+          {errors.rating && (
+            <p className="text-red-500 text-xs mt-2">{errors.rating.message}</p>
+          )}
         </div>
 
-        <button type="submit">Add Movie</button>
+        <div>
+          <label className="block text-gray-300 text-sm font-medium mb-2">
+            Summary:
+          </label>
+          <textarea
+            name="summary"
+            placeholder="Enter a short summary of the movie"
+            {...register("summary", {
+              required: "Summary is required",
+              minLength: {
+                value: 10,
+                message: "Summary must be at least 10 characters long",
+              },
+            })}
+            className="w-full px-4 py-2 text-sm text-gray-900 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          {errors.summary && (
+            <p className="text-red-500 text-xs mt-2">
+              {errors.summary.message}
+            </p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+        >
+          Add Movie
+        </button>
       </form>
     </div>
   );

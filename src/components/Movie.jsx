@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 
 const Movie = ({ movie }) => {
-  const { _id, duration, genre, poster, rating, releaseYear, summary, title } =
+  const { _id, duration, genre, poster, rating, title } =
     movie;
   const navigate = useNavigate();
 

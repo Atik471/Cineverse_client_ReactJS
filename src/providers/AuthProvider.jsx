@@ -8,8 +8,9 @@ export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
     const [user, setuser] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
+    
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
             if(currentuser) setuser(currentuser)
@@ -57,14 +58,15 @@ const AuthProvider = ({ children }) => {
         createWithEmail,
         signInWithEmail,
         logout,
+        loading
     }
 
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
               <div className="relative">
-                <div className="w-24 h-24 border-4 border-blue-600 border-solid rounded-full animate-spin border-t-transparent"></div>
-                <p className="absolute inset-0 flex items-center justify-center text-primary font-semibold">
+                <div className="w-28 h-28 border-8 border-primary border-solid rounded-full animate-spin border-t-transparent"></div>
+                <p className="absolute inset-0 flex items-center justify-center text-primary font-semibold text-xl">
                   Loading...
                 </p>
               </div>

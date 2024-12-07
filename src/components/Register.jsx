@@ -31,7 +31,7 @@ const Register = () => {
       });
   };
 
-  const handeRegisterWithEmail = async(e) => {
+  const handeRegisterWithEmail = async (e) => {
     e.preventDefault();
     const form = e.target;
 
@@ -59,80 +59,86 @@ const Register = () => {
     }
     setLoading(true);
     try {
-      const userCredential = await createWithEmail(email, password, name, photoURL);
-      console.log(userCredential.user)
-      setuser(userCredential.user)
+      const userCredential = await createWithEmail(
+        email,
+        password,
+        name,
+        photoURL
+      );
+      console.log(userCredential.user);
+      setuser(userCredential.user);
       toast.success("Registration Successful!", {
         position: "top-left",
         autoClose: 2000,
       });
-  
+
       //navigate("/");
-  
-    }catch(err) {
-        const errorCode = err.code;
-        console.log(err.code);
-        let errorMessage;
+    } catch (err) {
+      const errorCode = err.code;
+      console.log(err.code);
+      let errorMessage;
 
-        switch (errorCode) {
-          case "auth/email-already-in-use":
-            errorMessage =
-              "This email is already in use. Please try a different one.";
-            break;
-          case "auth/invalid-email":
-            errorMessage = "Invalid email format. Please check your email.";
-            break;
-          case "auth/weak-password":
-            errorMessage =
-              "Password is too weak. Please choose a stronger password.";
-            break;
-          default:
-            errorMessage = "An unknown error occurred during sign-up.";
-            break;
-        }
+      switch (errorCode) {
+        case "auth/email-already-in-use":
+          errorMessage =
+            "This email is already in use. Please try a different one.";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "Invalid email format. Please check your email.";
+          break;
+        case "auth/weak-password":
+          errorMessage =
+            "Password is too weak. Please choose a stronger password.";
+          break;
+        default:
+          errorMessage = "An unknown error occurred during sign-up.";
+          break;
+      }
 
-        setError(errorMessage);
-        toast.error(`Sign up Failed! ${error || errorMessage}`, {
-          position: "top-left",
-          autoClose: 2000,
-        });
-        setLoading(false);
-      };
+      setError(errorMessage);
+      toast.error(`Sign up Failed! ${error || errorMessage}`, {
+        position: "top-left",
+        autoClose: 2000,
+      });
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex w-[80%] mx-[10%] my-[5rem] justify-between">
-      <div className="w-[50%] flex- flex-col">
-        <h1 className="text-5xl font-bold mb-10">Register</h1>
+    <div className="flex w-[90%] sm:w-[80%] mx-auto my-[3rem] sm:my-[4rem] lg:my-[5rem] justify-between">
+      <div className="w-full sm:w-[50%] flex flex-col">
+        <h1 className="text-4xl sm:text-5xl font-bold mb-8 sm:mb-10">
+          Register
+        </h1>
         <form onSubmit={handeRegisterWithEmail} className="flex flex-col">
           <input
             required
             type="text"
             name="name"
             placeholder="Name"
-            className="border-2 outline-none px-8 py-6 font-extralight text-xl mb-8"
+            className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
           />
           <input
             required
             type="email"
             name="email"
             placeholder="Email"
-            className="border-2 outline-none px-8 py-6 font-extralight text-xl mb-8"
+            className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
           />
           <input
             required
             type="password"
             name="password"
             placeholder="Password"
-            className="border-2 outline-none px-8 py-6 font-extralight text-xl mb-8"
+            className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
           />
           <input
             type="text"
             name="photoURL"
             placeholder="Paste your Photo URL here"
-            className="border-2 outline-none px-8 py-6 font-extralight text-xl mb-8"
+            className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
           />
-          <p className="mb-8 ml-2">
+          <p className="mb-6 sm:mb-8 ml-2">
             Already have an account?
             <Link
               to={"/login"}
@@ -146,10 +152,10 @@ const Register = () => {
             <input
               type="submit"
               value={`${loading ? "" : "Register"}`}
-              className="w-full px-8 py-6 font-bold text-xl mb-8 bg-primary text-white hover:bg-black cursor-pointer transition-all duration-300"
+              className="w-full px-6 sm:px-8 py-4 sm:py-6 font-bold text-lg sm:text-xl mb-8 bg-primary text-white hover:bg-black cursor-pointer transition-all duration-300"
             />
             {loading ? (
-              <div className=" absolute top-[20%] right-[50%] w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+              <div className="absolute top-[20%] right-[50%] w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : (
               ""
             )}
@@ -157,13 +163,13 @@ const Register = () => {
         </form>
         <button
           onClick={handleLoginWithGoogle}
-          className="w-full px-8 py-6 font-bold text-xl mb-8 bg-gray-500 text-white hover:bg-black cursor-pointer transition-all duration-300"
+          className="w-full px-6 sm:px-8 py-4 sm:py-6 font-bold text-lg sm:text-xl mb-8 bg-gray-500 text-white hover:bg-black cursor-pointer transition-all duration-300"
         >
           Register with Google
         </button>
       </div>
       <div
-        className="flex-grow bg-no-repeat bg-contain w-[50%] ml-auto bg-center"
+        className="hidden sm:block flex-grow bg-no-repeat bg-contain w-[50%] ml-auto bg-center"
         style={{ backgroundImage: `url(${login_page})` }}
       ></div>
     </div>

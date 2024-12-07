@@ -66,7 +66,7 @@ const AddMovies = () => {
 
   // bg-gray-800
   return (
-    <div className="max-w-[60%] mx-auto bg-gray-800 my-[5rem] p-8 rounded-lg shadow-lg">
+    <div className="md:max-w-[60%] max-w-[94%] mx-auto bg-gray-800 md:my-[5rem] my-[2rem] p-8 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-white mb-6 text-center">
         Add a Movie
       </h2>

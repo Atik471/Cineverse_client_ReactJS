@@ -5,8 +5,8 @@ export const LocationContext = createContext()
 
 const LocationProvider = ({ children }) => {
 
-    // const serverDomain = 'https://cineverse-rdna8s749-atikur-rahmans-projects-e1054064.vercel.app/'
-    const serverDomain = 'http://localhost:5000'
+    const serverDomain = 'https://cineverse-9wce3xir4-atikur-rahmans-projects-e1054064.vercel.app/'
+    //const serverDomain = 'http://localhost:5000'
     const clientDomain = 'http://localhost:5173/'
 
     const domainInfo = {

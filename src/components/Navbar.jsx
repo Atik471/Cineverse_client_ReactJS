@@ -1,13 +1,23 @@
 import { useContext, useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { FaBars, FaCirclePlay } from "react-icons/fa6";
+import { GiNightSky } from "react-icons/gi";
+import { ThemeContext } from "../providers/ThemeProvider";
+import { FaRegSun } from "react-icons/fa6";
 
 const Navbar = () => {
   const [bgColor, setBgColor] = useState("bg-transparent");
   const [fontColor, setFontColor] = useState("text-white");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setuser, logout } = useContext(AuthContext);
+  const location = useLocation();
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  const handleTheme = () => {
+    if(theme === 'light') setTheme('dark')
+    else setTheme('light')
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,7 +66,10 @@ const Navbar = () => {
       </ul>
       <div>
         {user ? (
-          <div className="flex gap-6">
+          <div className="flex gap-6 items-center">
+            {
+              location.pathname === '/' && theme === 'light' ? <GiNightSky  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></GiNightSky> : <FaRegSun  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></FaRegSun>
+            }
             <button
               onClick={handleLogout}
               className="bg-primary px-2 md:px-4 py-1 md:py-2 rounded-md md:rounded-lg hover:bg-orange-500 transition-all duration-500 text-sm md:text-base"
@@ -85,6 +98,7 @@ const Navbar = () => {
             <button className="bg-primary px-2 md:px-4 py-1 md:py-2 rounded-md md:rounded-lg hover:bg-orange-500 transition-all duration-500 text-sm md:text-base">
               <Link to={"/register"}>Register</Link>
             </button>
+            
           </div>
         )}
       </div>

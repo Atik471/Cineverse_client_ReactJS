@@ -9,6 +9,7 @@ function App() {
   return (
     <div className='font-primary'>
       {/* <Navbar></Navbar> */}
+
       <Banner></Banner>
       <Outlet></Outlet>
       <Footer></Footer>

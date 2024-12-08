@@ -32,8 +32,8 @@ const Home = () => {
     );
 
   return (
-    <div className="w-[95%] sm:w-[90%] lg:w-[80%] mx-auto my-12 sm:my-16 lg:my-[5rem]">
-      <div className="mb-8 sm:mb-10 lg:mb-12 text-center lg:text-left flex flex-wrap items-center justify-between gap-6">
+    <div className="w-[95%] sm:w-[90%] lg:w-[80%] mx-auto py-12 sm:py-16 lg:py-[5rem]">
+      <div className="mb-8 sm:mb-10 lg:mb-12 text-center lg:text-left flex flex-wrap items-center justify-center lg:justify-between gap-6">
         <div>
           <p className="text-base pb-3 md:pb-5 sm:text-lg font-medium sm:font-semibold text-black/70">
             Explore our most popular movies

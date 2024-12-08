@@ -1,8 +1,25 @@
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../providers/ThemeProvider";
 
 const OurIntroduction = () => {
+  const [fontColor, setFontColor] = useState('')
+  const [bgColor, setBgColor] = useState('')
+  const { theme, setTheme } = useContext(ThemeContext);
+
+   useEffect(() => {
+    if (theme === 'light') {
+      setFontColor('black');
+      setBgColor('white');
+    } else {
+      setFontColor('white');
+      setBgColor('black');
+    }
+   }, [theme])
+  
   return (
-    <div className="lg:py-16 py-8 lg:my-[16rem] my-[8rem] bg-black">
+    <div className={`lg:py-16 py-8 ${theme === 'light' && 'lg:my-[16rem] my-[8rem]'} bg-black`} 
+    >
       <div className="container mx-auto px-6 lg:px-[8%] flex flex-col lg:flex-row-reverse items-center lg:gap-12 gap-5">
         <div className="flex justify-center lg:justify-start w-full lg:w-1/2">
           <div className="relative grid lg:grid-cols-2 grid-cols-1 gap-4 w-full">
@@ -26,7 +43,7 @@ const OurIntroduction = () => {
 
         <div className="w-full lg:w-1/2">
           <p className="text-primary font-semibold mb-4">Our Introduction</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
+          <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold text-${fontColor} mb-6`}>
             Best pick for hassle-free{" "}
             <span className="text-primary">streaming</span> experience.
           </h2>

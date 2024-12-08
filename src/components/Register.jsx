@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { toast } from "react-toastify";
 import login_page from "/assets/login_page.png";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const { user, setuser, createWithGoogle, createWithEmail } =
     useContext(AuthContext);
   const navigate = useNavigate();
@@ -125,13 +127,22 @@ const Register = () => {
             placeholder="Email"
             className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
           />
-          <input
-            required
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
-          />
+          <div className="relative mb-6 sm:mb-8">
+            <input
+              required
+              type={passwordVisible ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+            >
+              {passwordVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+            </button>
+          </div>
           <input
             type="text"
             name="photoURL"

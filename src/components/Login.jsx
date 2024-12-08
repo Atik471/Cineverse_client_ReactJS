@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import login_page from "/assets/login_page.png";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState("Invalid credential!");
   const [loading, setLoading] = useState(false);
   const { setuser, createWithGoogle, signInWithEmail } =
@@ -15,26 +17,22 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLoginWithGoogle = () => {
-    //setLoading(true)
     createWithGoogle()
       .then((userCredential) => {
         setuser(userCredential.user);
         navigate("/");
-        toast.success("Login Succesful!", {
+        toast.success("Login Successful!", {
           position: "top-left",
           autoClose: 2000,
         });
-        //console.log(userCredential.user);
-        //setLoading(false)
       })
       .catch((error) => {
         const errorMessage = error.message;
         console.log(errorMessage);
-        toast.success(`Login Failed! ${errorMessage}`, {
+        toast.error(`Login Failed! ${errorMessage}`, {
           position: "top-left",
           autoClose: 2000,
         });
-        //setLoading(false)
       });
   };
 
@@ -48,7 +46,7 @@ const Login = () => {
       .then((userCredential) => {
         setuser(userCredential.user);
         navigate("/");
-        toast.success("Login Succesful!", {
+        toast.success("Login Successful!", {
           position: "top-left",
           autoClose: 2000,
         });
@@ -86,13 +84,22 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
           />
-          <input
-            required
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl mb-6 sm:mb-8"
-          />
+          <div className="relative mb-6 sm:mb-8">
+            <input
+              required
+              type={passwordVisible ? "text" : "password"} 
+              name="password"
+              placeholder="Password"
+              className="border-2 outline-none px-6 sm:px-8 py-4 sm:py-6 font-extralight text-lg sm:text-xl w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)} 
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+            >
+              {passwordVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+            </button>
+          </div>
           <div className="flex flex-col sm:flex-row mb-6 sm:justify-between">
             <Link
               to={`/forgot-password?email=${email}`}

@@ -68,7 +68,7 @@ const Navbar = () => {
         {user ? (
           <div className="flex gap-6 items-center">
             {
-              location.pathname === '/' && theme === 'light' ? <GiNightSky  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></GiNightSky> : <FaRegSun  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></FaRegSun>
+              location.pathname === '/' && (theme === 'light' ? <GiNightSky  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></GiNightSky> : <FaRegSun  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></FaRegSun>)
             }
             <button
               onClick={handleLogout}
@@ -92,6 +92,9 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex gap-3">
+            {
+              location.pathname === '/' && (theme === 'light' ? <GiNightSky  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></GiNightSky> : <FaRegSun  className=" bg-primary cursor-pointer rounded-xl px-2 py-1 w-10 h-10" onClick={handleTheme}></FaRegSun>)
+            }
             <button className="bg-primary px-2 md:px-4 py-1 md:py-2 rounded-md md:rounded-lg hover:bg-orange-500 transition-all duration-500 text-sm md:text-base">
               <Link to={"/login"}>Login</Link>
             </button>

@@ -3,6 +3,7 @@ import { Rating } from "react-simple-star-rating";
 import { LocationContext } from "../providers/LocationProvider";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UpdateMovies = () => {
     const [movie, setmovie] = useState(null);
@@ -66,6 +67,7 @@ const UpdateMovies = () => {
   ];
 
   const onSubmit = async (data) => {
+    setloading(true);
     try {
       const response = await fetch(`${serverDomain}/movies/update/${movie._id}`, {
         method: "PUT",
@@ -82,10 +84,19 @@ const UpdateMovies = () => {
 
       const result = await response.json();
       console.log("Movie Updated:", result);
-      alert("Movie updated successfully!");
+      toast.success("Movie Update successfully!", {
+        position: "top-left",
+        autoClose: 2000,
+      });
       navigate(`/movie-details/${movie._id}`)
     } catch (error) {
-      console.error("Error:", error);
+      toast.error(`Movie Update Failed! ${error}`, {
+        position: "top-left",
+        autoClose: 2000,
+      });
+    }
+    finally {
+      setloading(false);
     }
   };
 
@@ -259,12 +270,20 @@ const UpdateMovies = () => {
           )}
         </div>
 
+        <div className="relative">
         <button
           type="submit"
           className="w-full py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
         >
           Update Movie
         </button>
+        {loading ? (
+            <div className="absolute top-[20%] right-[50%] w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            ""
+          )}
+        </div>
+        
       </form>
     </div>
   );

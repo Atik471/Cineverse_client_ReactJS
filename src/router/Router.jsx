@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute"
 import MovieDetails from "../components/MovieDetails";
 import Home from "../components/Home";
 import ContactUs from "../components/ContactUs";
+import UpdateMovies from "../components/UpdateMovies";
 
 const router = createBrowserRouter([
     {
@@ -62,6 +63,12 @@ const router = createBrowserRouter([
             {
                 path: "contact-us",
                 element: <ContactUs></ContactUs>
+            },
+            {
+                path: "update-movie/:id",
+                element: <PrivateRoute>
+                    <UpdateMovies></UpdateMovies>
+                </PrivateRoute>
             }
         ]
     }

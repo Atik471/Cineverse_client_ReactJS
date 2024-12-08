@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { LocationContext } from "../providers/LocationProvider";
 import { Rating } from "react-simple-star-rating";
@@ -69,10 +69,9 @@ const MovieDetails = () => {
   };
 
   return (
-    <div className="w-[80%] mx-auto my-[5rem] flex gap-12">
-      <img src={movie.poster} alt="poster" className="w-[30%] rounded-lg" />
-      <div className="mt-2">
-        <h1 className="text-4xl font-bold mb-[1rem] text-blue-950">
+    <div className="w-[90%] sm:w-[80%] mx-auto md:my-[5rem] my-8 flex flex-col sm:flex-row md:gap-12 gap-6">
+      <div className="md:hidden ml-2">
+        <h1 className="text-4xl font-bold md:mb-[1rem] mb-4 text-black">
           {movie.title}
         </h1>
         <div className="flex gap-3 text-blue-950">
@@ -90,21 +89,55 @@ const MovieDetails = () => {
             emptyColor="#D3D3D3"
           />
         </p>
-        <div className="flex gap-5 my-4">
+      </div>
+      <img
+        src={movie.poster}
+        alt="poster"
+        className="w-full sm:w-[30%] rounded-lg mb-4 sm:mb-0"
+      />
+      <div className="mt-2">
+        <div className=" hidden md:block">
+        <h1 className="text-4xl font-bold mb-[1rem] text-black">
+          {movie.title}
+        </h1>
+        <div className="flex gap-3 text-blue-950">
+          <span>{movie.releaseYear}</span>
+          <span>{movie.duration} min</span>
+        </div>
+        <p className=" text-blue-950">{movie.genre}</p>
+        <p className="flex items-center gap-4 text-blue-950">
+          Rating:
+          <Rating
+            readonly
+            initialValue={movie.rating}
+            size={20}
+            fillColor="#FFD700"
+            emptyColor="#D3D3D3"
+          />
+        </p>
+        </div>
+        <p className="text-blue-950 md:hidden mb-4">{movie.summary}</p>
+        <div className="flex gap-5 md:my-4 flex-col sm:flex-row">
           <button
-            className="hover:bg-primary border-2 border-primary px-8 py-4 rounded-[3rem] font-bold hover:text-white transition-all duration-300"
+            className="hover:bg-primary border-2 border-primary px-8 md:py-4 rounded-[3rem] font-bold hover:text-white transition-all duration-300 w-full sm:w-auto py-2"
             onClick={handleAddtoFavourites}
           >
             Add to favourites
           </button>
           <button
-            className="bg-slate-800 text-white px-8 py-4 rounded-[3rem] font-bold hover:bg-black transition-all duration-300"
+            className="bg-slate-800 text-white px-8 md:py-4 py-2 rounded-[3rem] font-bold hover:bg-black transition-all duration-300 w-full sm:w-auto"
             onClick={handledelete}
           >
             Delete
           </button>
+          <Link
+            to={`/update-movie/${movie._id}`}
+            className="bg-slate-800 text-white px-8 md:py-4 py-2 rounded-[3rem] font-bold hover:bg-black transition-all duration-300 w-full sm:w-auto text-center"
+          >
+            Update
+          </Link>
         </div>
-        <p className=" text-blue-950">{movie.summary}</p>
+        <p className="text-blue-950 md:flex hidden">{movie.summary}</p>
       </div>
     </div>
   );

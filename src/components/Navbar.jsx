@@ -37,7 +37,6 @@ const Navbar = () => {
         console.error("Error signing out:", error);
       });
   };
-  if (user) console.log(user.photoURL);
 
   return (
     <div
@@ -53,11 +52,17 @@ const Navbar = () => {
         <NavLink to={"/all-movies"}>All Movies</NavLink>
         <NavLink to={"/add-movies"}>Add Movies</NavLink>
         <NavLink to={"my-favourites"}>My Favourites</NavLink>
+        <NavLink to={"/contact-us"}>Contact Us</NavLink>
       </ul>
       <div>
         {user ? (
           <div className="flex gap-6">
-            <button onClick={handleLogout} className="bg-primary px-2 md:px-4 py-1 md:py-2 rounded-md md:rounded-lg hover:bg-orange-500 transition-all duration-500 text-sm md:text-base">Logout</button>
+            <button
+              onClick={handleLogout}
+              className="bg-primary px-2 md:px-4 py-1 md:py-2 rounded-md md:rounded-lg hover:bg-orange-500 transition-all duration-500 text-sm md:text-base"
+            >
+              Logout
+            </button>
             <div className="relative group md:w-10 h-8 w-8 md:h-10">
               <div
                 className={`rounded-full md:w-10 h-8 w-8 md:h-10 p-[2px] border-2 border-gray-600 bg-contain`}
@@ -116,6 +121,9 @@ const Navbar = () => {
             <NavLink to={"/my-favourites"} onClick={() => setIsMenuOpen(false)}>
               My Favourites
             </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/contact-us"}>Contact Us</NavLink>
           </li>
         </ul>
       </div>

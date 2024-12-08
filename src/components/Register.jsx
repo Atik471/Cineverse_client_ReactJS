@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { toast } from "react-toastify";
-import login_page from "../assets/login_page.png";
+import login_page from "/assets/login_page.png";
 
 const Register = () => {
   const [error, setError] = useState(null);

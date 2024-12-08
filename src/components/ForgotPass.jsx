@@ -2,7 +2,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
-import login_page from "../assets/login_page.png";
+import login_page from "/assets/login_page.png";
 import { toast } from "react-toastify";
 
 const ForgotPass = () => {

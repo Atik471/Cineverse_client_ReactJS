@@ -10,6 +10,7 @@ import MyFavourites from "../components/MyFavourites"
 import PrivateRoute from "./PrivateRoute"
 import MovieDetails from "../components/MovieDetails";
 import Home from "../components/Home";
+import ContactUs from "../components/ContactUs";
 
 const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
                     <MovieDetails></MovieDetails>
                 </PrivateRoute>
             },
+            {
+                path: "contact-us",
+                element: <ContactUs></ContactUs>
+            }
         ]
     }
 ])

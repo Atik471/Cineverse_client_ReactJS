@@ -1,5 +1,6 @@
 import BestPick from "./BestPick";
 import Featured from "./Featured"
+import OurIntroduction from "./OurIntroduction"
 
 const Home = () => {
 
@@ -7,6 +8,7 @@ const Home = () => {
     <>
     <Featured></Featured>
     <BestPick></BestPick>
+    <OurIntroduction></OurIntroduction>
     </>
   );
 };
